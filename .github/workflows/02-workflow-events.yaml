@@ -1,0 +1,11 @@
+name: workflow-events
+on: 
+    workflow_dispatch:
+    push:
+    pull_request:
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - name: display trigger name
+              run: echo "I've benn triggered by ${{ github.event_name}} event"
