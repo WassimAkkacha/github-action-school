@@ -1,13 +1,9 @@
-version: '3.9'
-
+version: "3.9"
 services:
   app:
-    image: ensit/github-action-school
-    build: .
-    restart: always
-
+    image: wassimakkacha/github-action-school 
     ports:
-      - 3000:3000
-    volumes:
-      - .:/app
-      - /app/node_modules
+      - "3000:3000"
+    expose:
+      - "3000"
+    command: ["node", "dist/app/Server.js"]
