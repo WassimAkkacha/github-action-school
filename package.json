@@ -1,0 +1,32 @@
+{
+  "name": "github-action-school",
+  "version": "1.0.0",
+  "description": " Github actions & testing school",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "npm run build && node dist/app/server.js",
+    "build": "rimraf ./dist && tsc",
+    "lint": "npx prettier --write src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
