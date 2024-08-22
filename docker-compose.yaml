@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  app:
+    image: ensit/github-action-school
+    build: .
+    restart: always
+
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/node_modules

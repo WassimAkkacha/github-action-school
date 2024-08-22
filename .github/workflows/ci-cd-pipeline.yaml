@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   workflow_dispatch:
@@ -22,11 +22,11 @@ jobs:
         id: npm-ci
         run: npm ci
 
-      - name: Lint
+      - name: Run Lint
         id: npm-lint
         run: npm run lint
 
-      - name: Test
+      - name: Run Test
         id: npm-ci-test
         run: npm run test
   build-and-push:
@@ -43,6 +43,18 @@ jobs:
             DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build docker image
-        run: docker build -t ensit/github-action-school .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/github-action-school .
       - name: Push to Dockerhub
-        run: docker push ensit/github-action-school
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/github-action-school
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - id: deploy
+        uses: bitovi/github-actions-deploy-docker-to-ec2@v1.0.1
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_default_region: us-east-1
+          aws_elb_app_port: 3000
