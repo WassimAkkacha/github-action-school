@@ -14,7 +14,7 @@ describe('UserService class', () => {
   test('returns user data when findUserById resolves', async () => {
     //Arrange
     const mockUser: User = { id: 'Id1', username: 'Khalil', age: 22 };
-    userRepositoryMock.findUserById.mockImplementation((id: string)=> mockUser);
+    userRepositoryMock.findUserById.mockImplementation((id: string) => mockUser);
 
     //Act
     const user = await userService.getUser('Id1');
