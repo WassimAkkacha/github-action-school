@@ -1,5 +1,5 @@
-import { PaymentAdapter } from "./PaymentAdapter";
-import { PaymentDetails } from "./PaymentDetails";
+import { PaymentAdapter } from './PaymentAdapter';
+import { PaymentDetails } from './PaymentDetails';
 
 export class PaymentService {
   private paymentAdapter: PaymentAdapter;
