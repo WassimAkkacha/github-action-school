@@ -1,0 +1,52 @@
+name: CI PIPELINE
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    name: Linting and testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: install dependencies
+        id: install-dep
+        run: npm ci
+
+      - name: Run Lint
+        id: npm-lint
+        run: npm run lint
+
+      - name: Run Test
+        id: npm-ci-test
+        run: npm run test
+  build-and-push:
+    name: Build and push docker image
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+      - name: Login to Dockerhub
+        env:
+            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Build Docker image
+        id: docker-build
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/github-action-school-Ahmed-Asma .
+
+      - name: Push Docker image to Docker Hub
+        id: docker-push
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/github-action-school-Ahmed-Asma
